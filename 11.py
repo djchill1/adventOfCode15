@@ -8,8 +8,19 @@ def password_to_list(string):
     return output
 
 
+def list_to_string(pw_list):
+    string = ''
+    for element in pw_list:
+        string += element
+    return string
+
+
 def first_requirement(password):
     # one increasing straight of at least three letters like abc, bcd, cde.
+    for index in range(0, len(password) - 2):
+        if ord(password[index]) + 1 == ord(password[index + 1]):
+            if ord(password[index + 1]) + 1 == ord(password[index + 2]):
+                return True
     return False
 
 
@@ -25,15 +36,67 @@ def second_requirement(password):
 
 def third_requirement(password):
     # must contain at least two different, non-overlapping pairs of letters, like aa, bb, or zz
-    return False
+    pairs = 0
+    for index in range(0, len(password) - 1):
+        if password[index] == password[index + 1]:
+            try:
+                if password[index] != password[index + 2]:
+                    pairs += 1
+            except:
+                pairs += 1
+    if pairs >= 2:
+        return True
+    else:
+        return False
 
 
+def next_password(chars_list, password_length=8):
+    # FYIs:
+    # ord(a) = 97
+    # ord(z) = 122
+    ords = []
+    for i in range(0, password_length):
+        ords.append(0)
+    index = 0
+    next_pass = []
+    for char in chars_list:
+        ords[index] = ord(char)
+        index += 1
+    ords[password_length - 1] += 1
+    index = password_length - 1
+    for char in reversed(ords):
+        if char > 122:
+            if index > 0:
+                # print(index)
+                # print(ords)
+                # print(char, ords[index], ords[index-1])
+                ords[index] = 97
+                ords[index-1] += 1
+            else:
+                print('PW OUT OF RANGE FOR LOOP')
+        index -= 1
 
-def part_a(string):
+    for element in ords:
+        next_pass.append(chr(element))
+    return next_pass
+
+
+def part_a(starting_string):
+    string = starting_string
     password = password_to_list(string)
+    r1, r2, r3 = False, False, False
+    while r1 is False or r2 is False or r3 is False:
+        password = next_password(password)
+        print('working pw', password)
+        r1 = first_requirement(password)
+        r2 = second_requirement(password)
+        r3 = third_requirement(password)
+        print(r1, r2, r3)
+    return list_to_string(password)
 
 
-print(password_to_list('hijklmmn'))
+print(part_a('cqjxxyzz'))
+# print(part_a('ghijklmn'))
 
 
 class Test(TestCase):
