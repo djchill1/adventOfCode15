@@ -1,28 +1,31 @@
 from unittest import TestCase
 import hashlib
 
-# TODO: Actually make this work, it really doesn't atm!
 
-data = 'ckczppom'
+def part_a(key, zeros=5):
+    i = 0
+    n_zero_index = 0
+    while True:
+        i += 1
+        hash = hashlib.md5((key + str(i)).encode('utf-8')).hexdigest()
 
-m = hashlib.md5()
-m.update(("abcdef"+str(609043)).encode('utf-8'))
-hex = m.hexdigest()
-print(hex)
+        if not n_zero_index and hash.startswith('0' * zeros):
+            n_zero_index = i
 
-def part_a(input):
-    hex = '11111111111'
-    num = 1000
-    while hex[:5] != '00000':
-        num += 1
-        m.update(("abcdef"+str(num)).encode('utf-8'))
-        hex = m.hexdigest()
-    return num
+        # exit
+        if (n_zero_index):
+            break
+
+    return i, hash
+
+
+print(part_a('ckczppom'))
+print(part_a('ckczppom', 6))
 
 
 class Test(TestCase):
     def test_part_1_1(self):
-        self.assertEqual(609043, part_a('abcdef'))
+        self.assertEqual(609043, part_a('abcdef')[0])
 
     def test_part_1_2(self):
-        self.assertEqual(1048970, part_a('pqrstuv'))
+        self.assertEqual(1048970, part_a('pqrstuv')[0])
