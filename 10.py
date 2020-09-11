@@ -12,34 +12,40 @@ def iterate(input):
     output = []
     length = len(input)
     for i in range(0, length):
-        while input[i] == input[i+1]
-        print(i)
+        temp_sum = 0
+        print('parsing', i, input[i])
+        try:
+            if input[i] == input[i+1]:
+                print(input[i], 'equal!')
+                temp_sum += 1
+        except:
+            pass
 
 
-iterate(['1', '2', '3', '4'])
+def part_a_result(number):
+    return iterate(string_to_list(number))
+
+
+def part_a(start_number, iterations):
+    result = 0
+    return len(result)
+
+
+iterate(['1', '2', '2', '4'])
 
 
 class Test(TestCase):
     def test_part_1_1(self):
-        self.assertEqual(1000000, part_a(['turn on 0,0 through 999,999']))
+        self.assertEqual(11, part_a_result(1))
 
     def test_part_1_2(self):
-        self.assertEqual(1000, part_a(['toggle 0,0 through 999,0']))
+        self.assertEqual(21, part_a_result(11))
 
     def test_part_1_3(self):
-        self.assertEqual(0, part_a(['turn off 499,499 through 500,500']))
+        self.assertEqual(1211, part_a_result(21))
 
-    def test_part_2_1(self):
-        self.assertEqual(1, part_b(['turn on 0,0 through 0,0']))
+    def test_part_1_4(self):
+        self.assertEqual(111221, part_a_result(1211))
 
-    def test_part_2_2(self):
-        self.assertEqual(2000000, part_b(['toggle 0,0 through 999,999']))
-    #
-    # def test_part_2_3(self):
-    #     self.assertEqual(False, is_nice_2('uurcxstgmygtbstg'))
-    #
-    # def test_part_2_4(self):
-    #     self.assertEqual(False, is_nice_2('ieodomkazucvgmuy'))
-    #
-    # def test_part_2_5(self):
-    #     self.assertEqual(False, is_nice_2('aaa'))
+    def test_part_1_5(self):
+        self.assertEqual(312211, part_a_result(111221))
