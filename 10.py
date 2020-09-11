@@ -1,51 +1,45 @@
 from unittest import TestCase
 
-
-def string_to_list(string):
-    output = []
-    for i in string:
-        output.append(i)
-    return output
+input = '111221'
 
 
 def iterate(input):
     output = []
     length = len(input)
-    for i in range(0, length):
-        temp_sum = 0
-        print('parsing', i, input[i])
-        try:
-            if input[i] == input[i+1]:
-                print(input[i], 'equal!')
-                temp_sum += 1
-        except:
-            pass
+    # print('length =', length)
+    current_count = 1
+    for current_index in range(0, length - 1):
+        current_value = input[current_index]
+        if input[current_index + 1] == current_value:
+            # print('next index is the same. Value =', current_value)
+            current_count += 1
+        else:
+            # print('there are', current_count, 'of the value', current_value)
+            output.append(current_count)
+            output.append(current_value)
+            current_count = 1
+
+        # last index handling
+        if current_index == length - 2:
+            if input[length - 1] != input[length - 2]:
+                current_value = input[length - 1]
+                # print('there are', 1, 'of the value', current_value)
+                output.append(1)
+                output.append(current_value)
+
+    s = [str(i) for i in output]
+    numout = str("".join(s))
+    return numout
 
 
-def part_a_result(number):
-    return iterate(string_to_list(number))
+def iterate_n_times(input, times):
+    for i in range(0, times):
+        input = iterate(input)
+        # print('interim after', i+1, 'step(s) =', input)
+    return len(input)
 
 
-def part_a(start_number, iterations):
-    result = 0
-    return len(result)
-
-
-iterate(['1', '2', '2', '4'])
-
-
-class Test(TestCase):
-    def test_part_1_1(self):
-        self.assertEqual(11, part_a_result(1))
-
-    def test_part_1_2(self):
-        self.assertEqual(21, part_a_result(11))
-
-    def test_part_1_3(self):
-        self.assertEqual(1211, part_a_result(21))
-
-    def test_part_1_4(self):
-        self.assertEqual(111221, part_a_result(1211))
-
-    def test_part_1_5(self):
-        self.assertEqual(312211, part_a_result(111221))
+val = iterate(input)
+print(val)
+print('part a:', iterate_n_times('1113222113', 40))
+print('part b:', iterate_n_times('1113222113', 50))
